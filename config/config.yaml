@@ -1,0 +1,15 @@
+server:
+  port: 4242
+
+stripe:
+  #stripe秘钥
+  secretKey: ""
+  #webhook秘钥
+  webhookSecretKey: ""
+  #结算相关
+  payment:
+    #支付成功跳转页面
+    successUrl: "http://localhost:4242/static/success.html?session_id={CHECKOUT_SESSION_ID}"
+    #取消支付跳转页面
+    cancelUrl: "http://localhost:4242/static/canceled.html"
+

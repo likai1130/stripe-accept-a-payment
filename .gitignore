@@ -1,0 +1,16 @@
+.idea/
+*.iml
+*/*.iml
+*.ipr
+*/*.ipr
+*.iws
+*/*.iws
+*/*.log
+*/target/
+*.DS_Store
+.DS_Store
+/.DS_Store
+*.project
+*/data/
+*/logs/
+/bin
