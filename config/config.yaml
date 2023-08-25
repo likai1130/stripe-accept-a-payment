@@ -5,9 +5,9 @@ stripe:
   #stripe公钥
   publishableKey: ""
   #stripe秘钥
-  secretKey: "rk_test_51NasVUBlecuREjv9Vzn5Z5Jxf5dOtf7n4ChZ2jauFeI62Fl2b8famPBLKg7GEekO3NEiQS9ZZdrdThj7Q2Vs46hM00LZSd32fT"
+  secretKey: ""
   #webhook秘钥
-  webhookSecretKey: "whsec_f9dc907065dc094fd228d8e74e172d45b7f6585c9aab2fc6c21365d64b2ed634"
+  webhookSecretKey: ""
   #结算相关
   payment:
     #支付成功跳转页面
