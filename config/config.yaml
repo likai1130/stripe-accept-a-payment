@@ -2,14 +2,18 @@ server:
   port: 4242
 
 stripe:
+  #stripe公钥
+  publishableKey: ""
   #stripe秘钥
-  secretKey: ""
+  secretKey: "rk_test_51NasVUBlecuREjv9Vzn5Z5Jxf5dOtf7n4ChZ2jauFeI62Fl2b8famPBLKg7GEekO3NEiQS9ZZdrdThj7Q2Vs46hM00LZSd32fT"
   #webhook秘钥
-  webhookSecretKey: ""
+  webhookSecretKey: "whsec_f9dc907065dc094fd228d8e74e172d45b7f6585c9aab2fc6c21365d64b2ed634"
   #结算相关
   payment:
     #支付成功跳转页面
     successUrl: "http://localhost:4242/static/success.html?session_id={CHECKOUT_SESSION_ID}"
     #取消支付跳转页面
     cancelUrl: "http://localhost:4242/static/canceled.html"
+    #支持的支付方式
+    methodTypes: ""
 

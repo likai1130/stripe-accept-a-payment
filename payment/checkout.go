@@ -3,8 +3,8 @@ package payment
 import (
 	"fmt"
 	"github.com/pkg/errors"
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/checkout/session"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/checkout/session"
 	"stripe-accept-a-payment/config"
 )
 
@@ -18,6 +18,27 @@ type CheckoutParams struct {
 
 func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 	params := &stripe.CheckoutSessionParams{
+		InvoiceCreation: &stripe.CheckoutSessionInvoiceCreationParams{
+			Enabled: stripe.Bool(true),
+			InvoiceData: &stripe.CheckoutSessionInvoiceCreationInvoiceDataParams{
+				Description: stripe.String(cp.ProductDescription),
+				Metadata:    map[string]string{"order_id": cp.OrderId},
+				//AccountTaxIDs: []*string{stripe.String("DE123456789")},
+				CustomFields: []*stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
+					&stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
+						Name:  stripe.String("Purchase Order"),
+						Value: stripe.String(cp.OrderId),
+					},
+				},
+				RenderingOptions: &stripe.CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams{
+					AmountTaxDisplay: stripe.String("include_inclusive_tax"),
+				},
+				Footer: stripe.String("B2B Inc."),
+			},
+		},
+		//dasd
+		AutomaticTax:      &stripe.CheckoutSessionAutomaticTaxParams{Enabled: stripe.Bool(true)},
+		CancelURL:         stripe.String(config.Cfg.Stripe.Payment.CancelUrl),
 		ClientReferenceID: stripe.String(cp.OrderId),
 		CustomerEmail:     stripe.String(cp.CustomerEmail),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
@@ -35,11 +56,10 @@ func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 				TaxRates: nil,
 			},
 		},
+		Locale: nil,
 		//	Locale:     nil, // 可能就是地区
-		Mode:         stripe.String(string(stripe.CheckoutSessionModePayment)),
-		SuccessURL:   stripe.String(config.Cfg.Stripe.Payment.SuccessUrl),
-		CancelURL:    stripe.String(config.Cfg.Stripe.Payment.CancelUrl),
-		AutomaticTax: &stripe.CheckoutSessionAutomaticTaxParams{Enabled: stripe.Bool(true)},
+		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		SuccessURL: stripe.String(config.Cfg.Stripe.Payment.SuccessUrl),
 	}
 	s, err := session.New(params)
 	if err != nil {

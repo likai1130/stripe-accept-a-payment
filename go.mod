@@ -6,7 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.16.0
-	github.com/stripe/stripe-go/v72 v72.122.0
+	github.com/stripe/stripe-go/v75 v75.1.0
 )
 
 require (
