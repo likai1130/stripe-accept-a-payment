@@ -41,10 +41,9 @@ func HandleWebhook(signature string, data []byte) *Response {
 		//检查订单是否已付款（例如，通过卡付款）
 		orderPaid := session.PaymentStatus == stripe.CheckoutSessionPaymentStatusPaid
 		if orderPaid {
-			// 完成购买
-			FulfillOrder(session)
+			fmt.Printf("[%s]付款成功,订货状态[%s],业务订单号为[%s],StripeCheckout单号[%s] \n", session.CustomerEmail, orderPaid, session.ClientReferenceID, session.ID)
 		} else {
-			log.Println("付款失败")
+			fmt.Printf("[%s]付款成功,订货状态[%s],业务订单号为[%s],StripeCheckout单号[%s] \n", session.CustomerEmail, orderPaid, session.ClientReferenceID, session.ID)
 		}
 	case "invoice.paid": //生成票据
 		log.Println("Invoice paid completed!")
@@ -56,7 +55,10 @@ func HandleWebhook(signature string, data []byte) *Response {
 				Err:      errors.WithMessage(err, "Error parsing webhook JSON:"),
 			}
 		}
+
 		fmt.Println("HostedInvoiceURL: ", invoice.HostedInvoiceURL)
+		fmt.Println(fmt.Sprintf("用户[%s]-金额[$%d]-业务订单id[%s]", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.CustomFields[0].Value))
+		FulfillOrder(invoice)
 	default:
 		log.Printf("未知的webhook事件[%s]", event.Type)
 	}
@@ -65,14 +67,10 @@ func HandleWebhook(signature string, data []byte) *Response {
 	}
 }
 
-func FulfillOrder(s stripe.CheckoutSession) {
-	log.Printf("用户[%s]购买[%s]成功,金额为[$%d],订单id为[%s]: \n", s.CustomerEmail, "123", s.AmountTotal, s.ClientReferenceID)
-	// TODO:修改订单状态
-	log.Println("订单状态已修改")
-	// TODO:发送邮件给用户
-	log.Println("凭据已发送")
-
-	log.Println("凭据：", s.Invoice.HostedInvoiceURL)
-	//sendInvoice(s.CustomerEmail, s.Customer.ID)
-
+// FulfillOrder 处理业务订单状态
+func FulfillOrder(invoice stripe.Invoice) {
+	fmt.Printf("凭据URL: %s\n", invoice.HostedInvoiceURL)
+	fmt.Printf("用户[%s]-金额[$%d]-业务订单id[%s]-invoiceId[%s] \n", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.CustomFields[0].Value, invoice.ID)
+	//todo 更新数据库订单状态
+	fmt.Printf("业务订单id[%s] 更新成功 \n", invoice.CustomFields[0])
 }

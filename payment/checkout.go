@@ -26,7 +26,7 @@ func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 				//AccountTaxIDs: []*string{stripe.String("DE123456789")},
 				CustomFields: []*stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
 					&stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
-						Name:  stripe.String("Purchase Order"),
+						Name:  stripe.String("order_id"),
 						Value: stripe.String(cp.OrderId),
 					},
 				},
