@@ -18,7 +18,7 @@ func HandleCreateCheckout(c *gin.Context) {
 	}*/
 	params := payment.CheckoutParams{
 		OrderId:            "ws_1231312312",
-		CustomerEmail:      "15010609296@163.com",
+		CustomerEmail:      "test@gmail.com",
 		ProductName:        "基础版本套餐",
 		ProductDescription: "这是测试stripe的套餐",
 		UnitAmount:         9900,
