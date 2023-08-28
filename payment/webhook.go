@@ -57,7 +57,7 @@ func HandleWebhook(signature string, data []byte) *Response {
 		}
 
 		fmt.Println("HostedInvoiceURL: ", invoice.HostedInvoiceURL)
-		fmt.Println(fmt.Sprintf("用户[%s]-金额[$%d]-业务订单id[%s]", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.CustomFields[0].Value))
+		fmt.Println(fmt.Sprintf("用户[%s]-金额[$%d]-业务订单id[%s]", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.Metadata["order_id"]))
 		FulfillOrder(invoice)
 	default:
 		log.Printf("未知的webhook事件[%s]", event.Type)

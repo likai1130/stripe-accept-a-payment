@@ -17,7 +17,7 @@ func HandleCreateCheckout(c *gin.Context) {
 		return
 	}*/
 	params := payment.CheckoutParams{
-		OrderId:            "ws_1231312312",
+		OrderId:            "e3530254-e7bc-41de-805d-750b392b543e",
 		CustomerEmail:      "test@gmail.com",
 		ProductName:        "基础版本套餐",
 		ProductDescription: "这是测试stripe的套餐",
@@ -26,6 +26,7 @@ func HandleCreateCheckout(c *gin.Context) {
 	//params.UnitAmount = params.UnitAmount * 100
 	session, err := payment.CreateCheckoutSession(params)
 	if err != nil {
+
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

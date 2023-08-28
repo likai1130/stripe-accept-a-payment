@@ -22,18 +22,22 @@ func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 			Enabled: stripe.Bool(true),
 			InvoiceData: &stripe.CheckoutSessionInvoiceCreationInvoiceDataParams{
 				Description: stripe.String(cp.ProductDescription),
-				Metadata:    map[string]string{"order_id": cp.OrderId},
+				Footer:      stripe.String("B2B Inc."),
+				Metadata: map[string]string{
+					"order_id":       cp.OrderId,
+					"dictionaryCode": "3001",
+					"packagePlanId":  "1",
+				},
 				//AccountTaxIDs: []*string{stripe.String("DE123456789")},
-				CustomFields: []*stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
+				/*CustomFields: []*stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
 					&stripe.CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams{
 						Name:  stripe.String("order_id"),
 						Value: stripe.String(cp.OrderId),
 					},
-				},
+				},*/
 				RenderingOptions: &stripe.CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams{
 					AmountTaxDisplay: stripe.String("include_inclusive_tax"),
 				},
-				Footer: stripe.String("B2B Inc."),
 			},
 		},
 		//dasd
