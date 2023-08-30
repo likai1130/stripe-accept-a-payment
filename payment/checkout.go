@@ -18,6 +18,7 @@ type CheckoutParams struct {
 
 func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 	params := &stripe.CheckoutSessionParams{
+		CustomerCreation: stripe.String("if_required"),
 		InvoiceCreation: &stripe.CheckoutSessionInvoiceCreationParams{
 			Enabled: stripe.Bool(true),
 			InvoiceData: &stripe.CheckoutSessionInvoiceCreationInvoiceDataParams{
@@ -40,7 +41,6 @@ func CreateCheckoutSession(cp CheckoutParams) (*stripe.CheckoutSession, error) {
 				},
 			},
 		},
-		//dasd
 		AutomaticTax:      &stripe.CheckoutSessionAutomaticTaxParams{Enabled: stripe.Bool(true)},
 		CancelURL:         stripe.String(config.Cfg.Stripe.Payment.CancelUrl),
 		ClientReferenceID: stripe.String(cp.OrderId),

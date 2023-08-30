@@ -70,7 +70,7 @@ func HandleWebhook(signature string, data []byte) *Response {
 // FulfillOrder 处理业务订单状态
 func FulfillOrder(invoice stripe.Invoice) {
 	fmt.Printf("凭据URL: %s\n", invoice.HostedInvoiceURL)
-	fmt.Printf("用户[%s]-金额[$%d]-业务订单id[%s]-invoiceId[%s] \n", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.CustomFields[0].Value, invoice.ID)
+	fmt.Printf("用户[%s]-金额[$%d]-业务订单id[%s]-invoiceId[%s] \n", invoice.CustomerEmail, invoice.AmountPaid/100, invoice.Metadata["order_id"], invoice.ID)
 	//todo 更新数据库订单状态
-	fmt.Printf("业务订单id[%s] 更新成功 \n", invoice.CustomFields[0])
+	fmt.Printf("业务订单id[%s] 更新成功 \n", invoice.Metadata["order_id"])
 }
